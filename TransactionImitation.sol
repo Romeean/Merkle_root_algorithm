@@ -9,11 +9,11 @@ struct Transaction {
     uint256 nonce;
     uint256 gasLimit;
     uint256 gasPrice;
-    bytes   data;
+    string  data;
 }
 
 contract TransactionImitation {
-    Transaction[] public transactions;
+    Transaction[] public  transactions;
      
     address[8] addressesFrom = [
         0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045, // Vitalik Buterin (публичный)
@@ -26,7 +26,7 @@ contract TransactionImitation {
         0x28C6c06298d514Db089934071355E5743bf21d60  // Binance hot wallet
     ];
 
-    address[8] addressesTo = [
+    address[8] public addressesTo = [
         0x21a31Ee1afC51d94C2eFcCAa2092aD1028285549, // Binance 14
         0x1522900B6daFac587d499a862861C0869Be6E428, // Coinbase cold wallet
         0x71660c4005BA85c37ccec55d0C4493E66Fe775d3, // Coinbase 2
@@ -37,22 +37,29 @@ contract TransactionImitation {
         0x2FAF487A4414Fe77e2327F0bf4AE2a264a776AD2  // FTX (историческая)
     ];
 
+    constructor(){
+        createImitationTransaction();
+    }
 
-    function createImitationTransaction() external {
+    function createImitationTransaction() internal {
         for(uint8 i = 0; i < addressesFrom.length; i++){
             transactions.push(Transaction({
-                from:  addressesFrom[i],
-                to:    addressesTo[i],
-                value: 777,
-                nonce: transactions.length,
+                from:     addressesFrom[i],
+                to:       addressesTo[i],
+                value:    777,
+                nonce:    transactions.length,
                 gasLimit: 21000,
                 gasPrice: 20 gwei,
-                data: "hi =)"    
+                data:     "hi =)"    
             }));
         }
-        
+    
+    }
+   function getTransactionSize() public view returns(uint256){
+        return transactions.length;
     }
 }
 
+ 
 
  
